@@ -1,28 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<<<<<<< HEAD
-  <title>Upload Document</title>
-</head>
-<body>
-  <h2>Upload a Document (PDF, DOCX, or Image)</h2>
-  <form method="POST" enctype="multipart/form-data">
-    <input type="file" name="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" required>
-    <button type="submit">Upload</button>
-  </form>
-=======
     <meta charset="UTF-8">
     <title>Upload Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            margin-right: 10px;
+        }
+        button {
+            padding: 5px 12px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload PDF for Signing</h1>
+    <h1>Upload a Document</h1>
+    <p>You can upload <b>PDF, DOCX, DOC, or Image</b> for signing.</p>
+
     <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".pdf,.docx,.doc" required>
+        <input type="file" name="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" required>
         <button type="submit">Upload</button>
     </form>
+
+    <!-- Success message -->
     {% if message %}
         <p style="color: green;">{{ message }}</p>
     {% endif %}
+
+    <!-- Flash error/warning messages -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul>
@@ -32,6 +61,5 @@
             </ul>
         {% endif %}
     {% endwith %}
->>>>>>> c894d369cd2b1ae6bfdc64a1194145693e58ddd8
 </body>
 </html>

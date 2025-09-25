@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<<<<<<< HEAD
+  <title>Upload Document</title>
+</head>
+<body>
+  <h2>Upload a Document (PDF, DOCX, or Image)</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" required>
+    <button type="submit">Upload</button>
+  </form>
+=======
+    <meta charset="UTF-8">
+    <title>Upload Document</title>
+</head>
+<body>
+    <h1>Upload PDF for Signing</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".pdf,.docx,.doc" required>
+        <button type="submit">Upload</button>
+    </form>
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% endif %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for msg in messages %}
+                    <li style="color: red;">{{ msg }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+>>>>>>> c894d369cd2b1ae6bfdc64a1194145693e58ddd8
+</body>
+</html>

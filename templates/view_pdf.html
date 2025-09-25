@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>View PDF</title>
+</head>
+<body>
+    <h2>Document Preview: {{ filename }}</h2>
+
+    <!-- Show PDF in browser -->
+    <embed src="/{{D:\Automated E-signature system\Automatd-e-sign-system\uploads\Leave Request Form.pdf }}" type="application/pdf" width="800" height="600">
+
+    <p>
+        When ready, <a href="{{ url_for('sign_document', token=token) }}">go to signing page</a>.
+    </p>
+</body>
+</html>

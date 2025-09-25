@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Preview Document</title>
+</head>
+<body>
+  <h2>Document Preview</h2>
+  <p>Email detected: <strong>{{ email }}</strong></p>
+  <iframe src="{{ file_url }}" width="600" height="400" style="border:1px solid black;"></iframe>
+  
+  <form method="POST" action="{{ url_for('sign_document', token=token) }}">
+    <button type="submit">Sign Document</button>
+  </form>
+</body>
+</html>
+p

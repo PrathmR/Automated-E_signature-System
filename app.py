@@ -100,18 +100,14 @@ def upload():
             flash("No signer email found in document/image")
             return redirect(request.url)
 
-        candidate = emails[0]
-        payload = {"filename": filename, "email": candidate, "sig_boxes": sig_boxes}
-        token = serializer.dumps(payload)
+        # Send individual links for each signer
+        for em in emails:
+            payload = {"filename": filename, "email": em, "sig_boxes": sig_boxes}
+            token = serializer.dumps(payload)
+            send_sign_email(em, token)
 
-        preview_link = url_for('preview_document', token=token, _external=True)
-        sent = send_sign_email(candidate, token)
-        if sent:
-            flash(f"Email sent to {candidate}")
-        else:
-            flash(f"Could not send email to {candidate}. Preview link: opened locally.")
-
-        return redirect(preview_link)
+        flash(f"Emails sent to: {', '.join(emails)}")
+        return redirect(url_for('uploaded_file', filename=filename, _external=True))
 
     return render_template("upload.html")
 
@@ -125,7 +121,9 @@ def preview_document(token):
 
     filename = data['filename']
     file_url = url_for('uploaded_file', filename=filename, _external=True)
-    return render_template("preview.html", file_url=file_url, token=token, email=data.get('email'))
+    return render_template("preview.html",
+                           file_url=file_url,
+                           email=data.get('email'))
 
 # ---------------- SIGN DOCUMENT ----------------
 @app.route('/sign/<token>', methods=['POST'])

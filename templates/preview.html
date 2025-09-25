@@ -1,16 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Preview Document</title>
+    <meta charset="UTF-8">
+    <title>Preview Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        h1 {
+            color: #333;
+        }
+        iframe {
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 8px 16px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
-  <h2>Document Preview</h2>
-  <p>Email detected: <strong>{{ email }}</strong></p>
-  <iframe src="{{ file_url }}" width="600" height="400" style="border:1px solid black;"></iframe>
-  
-  <form method="POST" action="{{ url_for('sign_document', token=token) }}">
-    <button type="submit">Sign Document</button>
-  </form>
+    <h1>Document Preview</h1>
+    <p>You are signing as: <strong>{{ email }}</strong></p>
+
+    <iframe src="{{ file_url }}" width="100%" height="500px"></iframe>
+
+    <form method="POST" action="{{ url_for('sign_document', token=request.view_args['token']) }}">
+        <button type="submit">Sign Document</button>
+    </form>
 </body>
 </html>
-p

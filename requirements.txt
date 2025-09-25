@@ -1,0 +1,12 @@
+flask
+gunicorn
+pdfplumber
+reportlab
+PyPDF2
+python-docx
+Pillow
+easyocr
+torch
+torchvision
+itsdangerous
+python-dotenv

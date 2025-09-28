@@ -1,13 +1,24 @@
-flask
+# Flask Web Framework & Server
+Flask
 gunicorn
-pdfplumber
-reportlab
-PyPDF2
-python-docx
+itsdangerous
+
+# Document & Image Processing
 Pillow
+PyPDF2
+pdf2image
+pdfplumber
+python-docx
+reportlab
+
+# OCR & Computer Vision
 easyocr
+numpy
+opencv-python
+pytesseract
 torch
 torchvision
-itsdangerous
+
+# Email & Environment Variables
 python-dotenv
 sendgrid

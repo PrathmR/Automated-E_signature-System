@@ -13,6 +13,8 @@ from email.message import EmailMessage
 import smtplib
 from dotenv import load_dotenv
 import shutil
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 # Load environment variables
 load_dotenv()
@@ -40,31 +42,58 @@ FROM_EMAIL = os.environ.get("FROM_EMAIL", SMTP_USER)
 serializer = URLSafeSerializer(app.secret_key)
 
 # ---------------- EMAIL FUNCTION ----------------
+# def send_sign_email(to_email, token):
+#     """
+#     Try to send an email with a preview/sign link. Failure does not crash the app;
+#     it logs the error and returns False on failure.
+#     """
+#     if not SMTP_USER or not SMTP_PASS:
+#         logger.warning("SMTP credentials missing — skipping actual email send.")
+#         return False
+
+#     link = url_for('preview_document', token=token, _external=True)
+#     msg = EmailMessage()
+#     msg['Subject'] = 'Please review and sign the document'
+#     msg['From'] = FROM_EMAIL
+#     msg['To'] = to_email
+#     msg.set_content(f"You were requested to sign a document. Review it here: {link}")
+
+#     try:
+#         with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as s:
+#             s.starttls()
+#             s.login(SMTP_USER, SMTP_PASS)
+#             s.send_message(msg)
+#         logger.info("Sent email to %s", to_email)
+#         return True
+#     except Exception as e:
+#         logger.exception("Failed to send email to %s: %s", to_email, e)
+#         return False
+
+
+
 def send_sign_email(to_email, token):
     """
-    Try to send an email with a preview/sign link. Failure does not crash the app;
-    it logs the error and returns False on failure.
+    Send a sign request email via SendGrid.
     """
-    if not SMTP_USER or not SMTP_PASS:
-        logger.warning("SMTP credentials missing — skipping actual email send.")
-        return False
-
     link = url_for('preview_document', token=token, _external=True)
-    msg = EmailMessage()
-    msg['Subject'] = 'Please review and sign the document'
-    msg['From'] = FROM_EMAIL
-    msg['To'] = to_email
-    msg.set_content(f"You were requested to sign a document. Review it here: {link}")
+
+    message = Mail(
+        from_email=FROM_EMAIL,
+        to_emails=to_email,
+        subject="Please review and sign the document",
+        html_content=f"""
+        <p>You were requested to sign a document.</p>
+        <p>Click <a href="{link}">here</a> to review and sign it.</p>
+        """
+    )
 
     try:
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as s:
-            s.starttls()
-            s.login(SMTP_USER, SMTP_PASS)
-            s.send_message(msg)
-        logger.info("Sent email to %s", to_email)
+        sg = SendGridAPIClient(os.environ.get("SENDGRID_API_KEY"))
+        response = sg.send(message)
+        logger.info(f"Email sent to {to_email}, status {response.status_code}")
         return True
     except Exception as e:
-        logger.exception("Failed to send email to %s: %s", to_email, e)
+        logger.exception(f"Failed to send email to {to_email}: {e}")
         return False
 
 # ---------------- FILE UPLOAD ----------------

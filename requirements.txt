@@ -10,3 +10,4 @@ torch
 torchvision
 itsdangerous
 python-dotenv
+sendgrid
